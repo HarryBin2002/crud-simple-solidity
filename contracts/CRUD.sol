@@ -51,10 +51,11 @@ contract CRUD {
     function Delete(uint256 id) public {
         for (uint256 i = 0; i < players.length; i++) {
             if (players[i].id == id) {
-                delete players[i];
+                players.pop();
                 balances--;
             }
         }
+        delete idToName[id];
     }
 
     // get balances
@@ -63,7 +64,7 @@ contract CRUD {
     } 
 
     // show players
-    function showPlayer() view public returns (string memory ListPlayer) {
+    function showPlayer() view public returns (string memory) {
         string memory result = "";
         
         for (uint256 i = 0; i < players.length; i++) {
@@ -80,4 +81,18 @@ contract CRUD {
 
         return result;
     }
+
+    // get function 
+    function getNameFromId(uint256 id) public view returns (string memory) {
+        return idToName[id];
+    }
+
+    function getObjectPlayer(uint256 _id) public view returns (Player memory) {
+        uint256 id;
+        string memory name;
+        (id, name) = Read(_id);
+        Player memory p = Player(name, id);
+        return p;
+    }
+
 }
